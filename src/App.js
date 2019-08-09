@@ -1,26 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import FriendCard from "./components/FriendCard";
+import Wrapper from "./components/Wrapper";
+import Title from "./components/Title";
+import friends from "./friends.json";
+import "./App.css";
 
-function App() {
+class App extends React.Component {
+  state = {
+    friends: friends
+  }
+
+  removeFriend = (id) => {
+    console.log(`This removes friend ${id}`)
+    const newFriends = this.state.friends.filter(f => f.id !== id) 
+    this.setState({friends: newFriends})
+  }
+
+  render() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <Title title={'SpongeBob is the G.O.A.T'} />
+      {this.state.friends.map(f => {
+        return(
+        <FriendCard 
+        removeFriend = {this.removeFriend}
+        key = {f.index}
+        id={f.id}
+        name={f.name}
+        image={f.image}
+        occupation={f.occupation}
+        location={f.location}
+        />
+        )
+      })}
+
+
+      
+    </Wrapper>
   );
+}
 }
 
 export default App;
